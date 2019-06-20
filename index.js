@@ -1,13 +1,15 @@
 
 
 var http=require('http');
-
+var fs=require('fs');
 
 function handle(req,res){
     switch(req.url){
         case '/':
-            res.write('Index page');
-            res.end();
+            fs.readFile("index.html",function(err,contents){
+                res.write(contents);
+                res.end();
+            });          
             break;
         case '/about':
             res.write('About page');
@@ -17,6 +19,17 @@ function handle(req,res){
             res.write('Contact page');
             res.end();
             break;
+        case '/products':
+                var products=[
+                    {id:1,brand:"apple",price:400},
+                    {id:2,brand:"samsung",price:300},
+                    {id:3,brand:"Xiaomi",price:200}
+                ];
+                //write function will take only string
+                //so convert json to string
+                res.write(JSON.stringify(products));
+                res.end();
+                break;    
         default:
             res.write('Home Page');
             break;
