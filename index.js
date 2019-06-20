@@ -1,4 +1,6 @@
 var express=require('express');
+var productsCtrl=require('./controllers/products.ctrl');
+var defaultCtrl=require('./controllers/default.ctrl');
 var app=express();
 app.listen(3000,function(){
     console.log("server is running on port 3000");
@@ -6,12 +8,8 @@ app.listen(3000,function(){
 
 
 //routing HttpGet
-app.get('/',function(req,res){
-    res.send("hello express");
-});
+app.get('/',defaultCtrl.default);
 
-app.get('/health',function(req,res){
-    var response={status:'up'};
-    res.json(response);
-});
+app.get('/health',defaultCtrl.health);
 
+app.get('/products',productsCtrl.getproducts);
