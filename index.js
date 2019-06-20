@@ -1,59 +1,30 @@
-// var a=15;
-// console.log(a);
 
-// //functions
-// function add(a,b){
-//     console.log(a+b);
-// }
 
-// add(2,3);
-// add("yasir","affan");
-// //********************************************************* */
-// //objects
+var http=require('http');
 
-// var obj={
-//     name:"yasir",
-//     age:22,
-//     print: function(){
-//         console.log(this.name+" "+this.age);
-//     }
-// }
 
-// console.log(obj.name);
-// obj.print();
-//********************************************************* */
-//constructors
-
-// function Employee(name,age){
-//     this.name=name;
-//     this.age=age;
-//     this.print = function(){
-//         console.log(this.name+" "+this.age);
-//     }
-// }
-
-// var emp1=new  Employee("yasir",22);
-// var emp2=new Employee("affan",24);
-// console.log(emp1.name+" "+emp2.age);
-// emp1.print();
-
-//********************************************************* */
-//async 
-
-function addAsync(a, b, cb) {
-    console.log("Started...");
-
-    //db,file,web service, setTimeout
-    setTimeout(function () {
-        console.log("Calculating");
-        var c = a + b;
-        cb(c, 1000);
-    }, 2000);
-
-    console.log("Ended");
-    return undefined;
+function handle(req,res){
+    switch(req.url){
+        case '/':
+            res.write('Index page');
+            res.end();
+            break;
+        case '/about':
+            res.write('About page');
+            res.end();
+            break;
+        case '/contact':
+            res.write('Contact page');
+            res.end();
+            break;
+        default:
+            res.write('Home Page');
+            break;
+            res.end();
+    }
+    
 }
 
-addAsync(20, 30, function callback(result, result2) {
-    console.log(result, result2);
-});
+var server=http.createServer(handle);
+server.listen(3000);
+console.log("server running on port 3000");
