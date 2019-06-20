@@ -1,0 +1,22 @@
+{
+  "name": "nodepractice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yasir18/NodePractice.git"
+  },
+  "author": "yasir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yasir18/NodePractice/issues"
+  },
+  "homepage": "https://github.com/yasir18/NodePractice#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
