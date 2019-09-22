@@ -1,6 +1,6 @@
 var express=require('express');
-var productsCtrl=require('./controllers/products.ctrl');
-var defaultCtrl=require('./controllers/default.ctrl');
+var bodyParser=require('body-parser');
+var productsRouter=require('./routes/products.router');
 var defaultRouter=require('./routes/default.router')
 
 var app=express();
@@ -8,10 +8,10 @@ app.listen(3000,function(){
     console.log("server is running on port 3000");
 });
 
-
+app.use(express.json());
+app.use(bodyParser.json());
 //routing HttpGet
-app.get('/',defaultRouter);
+app.use('/',defaultRouter);
+//app.get('/health',defaultRouter);
 
-app.get('/health',defaultRouter);
-
-app.get('/products',productsCtrl.getproducts);
+app.use('/products',productsRouter);
