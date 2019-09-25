@@ -1,37 +1,88 @@
-var products=[
-    {id:1,brand:"apple",price:400},
-    {id:2,brand:"samsung",price:300},
-    {id:3,brand:"Xiaomi",price:200}
-];
+var Product=require("../models/product.model");
+
+
 
 module.exports={
     getproducts: function(req,res){
-        
-        res.json(products);
-    },
-    getById:function(req,res){
-        var id=+req.params.id;
-        // + is used to convert string to int
-        var product;
-        for(var i=0;i<products.length;i++){
-            if(products[i].id==id){
-                product=products[i];
-                break;
+        Product.find( {}, {'__v':0}, function(err,products){
+            if(!err){
+                res.status(200);
+                res.json(products);
             }
-        }
-       
-        if(product){
-            res.status(200);
-            res.json(product);
-        }
-        else{
-            res.status(404);
-            res.send("Not Found");
-        }
+            else{
+                res.status(500);
+                res.send("Internal server error");
+            }            
+        });        
     },
+
+    getById:function(req,res){
+        var id=req.params.id;
+        //product.findById(id,{},callback); or 
+        Product.findOne({'_id':id},{'__v':0},function(err,product){
+                if(!err){
+                   if(product){
+                        res.status(200);
+                        res.json(product);
+                   }
+                   else{
+                       res.status(404);
+                       res.send("Not found");
+                   }
+                }
+                else{
+                    res.status(500);
+                    res.send("Internal server error");
+                     
+                }
+        });      
+    },
+
     save:function(req,res){
-        console.log(req.body);
-        products.push(req.body);
-        res.json(products);
+        var product=new Product(req.body);
+        product.save(function(err,product){
+            if(!err){
+                res.status(200);
+                res.json(product);
+            }
+            else{
+                res.status(500);
+                res.send(err);
+            }            
+        });
+
+    },
+
+    delete:function(req,res){
+        var id=req.params.id;
+        Product.findByIdAndRemove(id,function(err){
+            if(!err){
+                res.status(200);
+                res.send("Deleted");
+            }
+            else{
+                res.status(500);
+                res.send(err);
+            }
+        });
+    },
+
+    update:function(req,res){
+        var id=req.params.id;
+
+        Product.findByIdAndUpdate(id,{ $set:{ model:req.body.model, brand:req.body.brand,
+                                              price:req.body.price, inStock:req.body.inStock 
+                                             } },
+                                          function(err,product){
+                                            if(!err){
+                                                res.status(200);
+                                                res.json(product);
+                                            }
+                                            else{
+                                                res.status(500);
+                                                res.send(err);
+                                            }
+                                         });
     }
+    
 };
