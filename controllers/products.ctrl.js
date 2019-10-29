@@ -116,7 +116,3 @@ module.exports={
 };
 
 
-//promises example links
-//  http://jsfiddle.net/u74L4n1t
-//  http://jsfiddle.net/jspatel/mkjh2ev5
-//  https://plnkr.co/4Pv2HhiWV4kiPHY9VrUw
