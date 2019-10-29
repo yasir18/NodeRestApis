@@ -4,16 +4,44 @@ var Product=require("../models/product.model");
 
 module.exports={
     getproducts: function(req,res){
-        Product.find( {}, {'__v':0}, function(err,products){
-            if(!err){
-                res.status(200);
-                res.json(products);
-            }
-            else{
-                res.status(500);
-                res.send("Internal server error");
-            }            
-        });        
+
+        var pageSize = +req.params.pageSize || 5;
+        var pageIndex = +req.params.pageIndex || 0;
+
+        Product.count(function(err,cnt){
+            count=cnt;
+
+            var query=Product.find({}, { __v: 0 })
+                             .skip(pageIndex * pageSize)
+                             .limit(pageSize)
+                             .sort("-lastUpdated");
+             
+            query.exec(function(err,products){
+                if(!err){
+                    
+                    var response={
+                        metadata:{
+                            'total Count':count,
+                            'pages': Math.ceil(count/pageSize)
+                        },
+                        data:products
+                    }
+                    res.status(200);
+                    res.json(response);
+
+                }
+                else{
+                    
+                    res.status(500);
+                    res.send("Internal server error");
+                }            
+            });                 
+
+            
+        });
+
+
+             
     },
 
     getById:function(req,res){
@@ -86,3 +114,9 @@ module.exports={
     }
     
 };
+
+
+//promises example links
+//  http://jsfiddle.net/u74L4n1t
+//  http://jsfiddle.net/jspatel/mkjh2ev5
+//  https://plnkr.co/4Pv2HhiWV4kiPHY9VrUw
