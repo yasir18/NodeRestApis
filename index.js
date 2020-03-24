@@ -17,5 +17,6 @@ app.use(bodyParser.json());
 //routing HttpGet
 app.use('/',defaultRouter);
 //app.get('/health',defaultRouter);
-
 app.use('/products',productsRouter);
+
+
