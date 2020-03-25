@@ -5,13 +5,15 @@ module.exports={
     getproducts: function(req,res){
         var pageSize = +req.params.pageSize || 5;
         var pageIndex = +req.params.pageIndex || 0;
+        var sortBy = req.query.sortBy || "lastUpdated";
+        var sortDirection = req.query.sortDirection ? req.query.sortDirection.toLowerCase() === "asc"? "":"-": "-";
 
         Product.countDocuments()
             .then((count)=>{
                 Product.find({},{'__v':0})
                         .skip(pageIndex*pageSize)
                         .limit(pageSize)
-                        .sort("-lastUpdated")
+                        .sort(sortDirection + sortBy)
                         .exec()
                         .then((products)=>{
                             if(products){
@@ -71,7 +73,7 @@ module.exports={
                     res.json(product);
                 }).catch((error)=>{
                     res.status(500)
-                    res.send("Internal Server Error");
+                    res.send(error);
                 })
     },
 
