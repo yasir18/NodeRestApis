@@ -1,4 +1,5 @@
 var Product=require("../models/product.model");
+var Review=require("../models/review.model");
 
 module.exports={
     getproducts: function(req,res){
@@ -38,11 +39,19 @@ module.exports={
 
     getById : function(req,res){             
         let id=req.params.id;
-        Product.findOne({'_id':id},{'__v':0}).exec()
+        Product.findOne({'_id':id},{'__v':0})
+                .exec()
                 .then((product)=>{
                     if(product){
-                        res.status(200);
-                        res.json(product);
+                        console.log(product);
+                        Review.find({productId:id}) 
+                              .exec() 
+                              .then((review)=>{
+                                var jsonProduct = product.toJSON();
+                                jsonProduct.review=review;
+                                res.status(200);
+                                res.json(jsonProduct);
+                              })
                     }
                     else{
                         res.status(404);
