@@ -45,7 +45,6 @@ module.exports={
                 .exec()
                 .then((product)=>{
                     if(product){
-                        console.log(product);
                         Review.find({productId:id}) 
                               .exec() 
                               .then((review)=>{
@@ -98,7 +97,6 @@ module.exports={
                                .then((product)=>{
                                     res.status(200);
                                     res.json(product);
-                                    console.log(product);
                                }).catch(error => {
                                     res.status(500);
                                     res.send(err);

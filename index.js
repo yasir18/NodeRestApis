@@ -6,13 +6,15 @@ var productsRouter=require('./routes/products.router');
 var defaultRouter=require('./routes/default.router');
 var userRouter=require('./routes/user.router');
 var middlewares=require('./utilities/middlewares');
+var config=require('./utilities/config');
 
 var app=express();
-app.listen(3000,function(){
+var port=process.env.PORT || 3000;
+app.listen(port,function(){
     console.log("server is running on port 3000");
 });
 
-mongoose.connect("mongodb://localhost/myProductsDb", { useNewUrlParser: true ,useUnifiedTopology: true}, );
+mongoose.connect(config.connectionString, { useNewUrlParser: true ,useUnifiedTopology: true}, );
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
@@ -22,7 +24,7 @@ app.use(bodyParser.json());
 app.use('/',defaultRouter);
 app.use('/api/users',userRouter);
 
-app.use(middlewares.isAuthenticated);
+//app.use(middlewares.isAuthenticated);
 app.use('/api/products',productsRouter);
 
 
