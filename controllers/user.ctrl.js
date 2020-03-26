@@ -2,6 +2,7 @@ var User=require('../models/user.model');
 var jwt=require('jsonwebtoken');
 var bcrypt=require('bcrypt');
 var config = require('../utilities/config');
+var logger=require('../utilities/logger');
 
 module.exports={
 
@@ -16,10 +17,15 @@ module.exports={
             }).catch(err=>{
                 if(err && err.errmsg && err.errmsg.indexOf("duplicate key error")> 1){
                     res.status(500);
+                    logger.error(err);
                     res.json({error:"Username Alreay Exists"});
                 }
-                res.status(500);
-                res.json(err);
+                else{
+                    res.status(500);
+                    logger.error(err);
+                    res.json({error:"Internal Server error"});
+                }
+                
             })
     },
 
@@ -42,12 +48,13 @@ module.exports={
                     }
                 }
                 else{
-                    res.status(500);
+                    res.status(404);
                     res.json({error:"Username doesnot exists"});
                 }
                 
             }).catch(err=>{
                 res.status(500);
+                logger.error(err);
                 res.json({error:"Internal Server error"});
             })
     }

@@ -1,6 +1,8 @@
 var express=require('express');
 var bodyParser=require('body-parser');
 var mongoose=require('mongoose');
+var morgan=require('morgan');
+var fs=require('fs');
 
 var productsRouter=require('./routes/products.router');
 var defaultRouter=require('./routes/default.router');
@@ -18,9 +20,13 @@ mongoose.connect(config.connectionString, { useNewUrlParser: true ,useUnifiedTop
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
+
+var file=fs.createWriteStream(__dirname+'/logs/request-logger.log',{flags:'a'});
 app.use(express.json());
 app.use(bodyParser.json());
 
+//app.use(morgan('dev')); 
+//app.use(morgan('combined',{stream:file})); --> For request logging
 app.use('/',defaultRouter);
 app.use('/api/users',userRouter);
 

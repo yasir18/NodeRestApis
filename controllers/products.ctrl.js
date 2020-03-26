@@ -1,5 +1,6 @@
 var Product=require("../models/product.model");
 var Review=require("../models/review.model");
+var logger=require('../utilities/logger');
 
 module.exports={
     getproducts: function(req,res){
@@ -34,6 +35,7 @@ module.exports={
         })})
         .catch((error)=>{
             res.status(500);
+            logger.error(error);
             res.send("Internal server error");
         })
             
@@ -60,6 +62,7 @@ module.exports={
                     }                   
                 }).catch((error)=>{
                     res.status(500);
+                    logger.error(error);
                     res.send("Internal server error");
                 });
     },
@@ -71,8 +74,9 @@ module.exports={
                     res.status(200);
                     res.json(product);
                 }).catch((error)=>{
-                    res.status(500)
-                    res.send(error);
+                    res.status(500);
+                    logger.error(error);
+                    res.json({error:"Internal Server error"});
                 })
     },
 
@@ -85,7 +89,8 @@ module.exports={
                 })
                 .catch((error)=>{
                     res.status(500);
-                    res.send(err);
+                    logger.error(error);
+                    res.json({error:"Internal Server error"});
                 })
     },
 
@@ -99,7 +104,8 @@ module.exports={
                                     res.json(product);
                                }).catch(error => {
                                     res.status(500);
-                                    res.send(err);
+                                    logger.error(error);
+                                    res.json({error:"Internal Server error"});
                                })     
     }
 

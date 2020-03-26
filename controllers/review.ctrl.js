@@ -1,4 +1,6 @@
 var Review=require('../models/review.model');
+var logger=require('../utilities/logger');
+
  module.exports = {
      save: function(req,res){
          let review = new Review(req.body);
@@ -9,7 +11,8 @@ var Review=require('../models/review.model');
                 })
                 .catch((error)=>{
                     res.status(500);
-                    res.send("Internal Server error");
+                    logger.error(error);
+                    res.json({error:"Internal Server error"});
                 })
      }
  }

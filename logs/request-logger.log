@@ -1,0 +1,6 @@
+[0mGET /api/products [36m304[0m 347.236 ms - -[0m
+::1 - - [26/Mar/2020:20:09:34 +0000] "GET /api/products/5e7d05a5ed575ab30ccaabf5 HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"
+::1 - - [26/Mar/2020:20:17:41 +0000] "POST /api/users/register HTTP/1.1" 500 34 "-" "PostmanRuntime/7.24.0"
+::1 - - [26/Mar/2020:20:24:17 +0000] "POST /api/users/register HTTP/1.1" 500 34 "-" "PostmanRuntime/7.24.0"
+::1 - - [26/Mar/2020:20:27:28 +0000] "POST /api/users/register HTTP/1.1" 500 34 "-" "PostmanRuntime/7.24.0"
+::1 - - [26/Mar/2020:20:34:34 +0000] "POST /api/users/register HTTP/1.1" 500 34 "-" "PostmanRuntime/7.24.0"
