@@ -21,7 +21,9 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
 
+
 var file=fs.createWriteStream(__dirname+'/logs/request-logger.log',{flags:'a'});
+app.use(express.static('uploads/'));
 app.use(express.json());
 app.use(bodyParser.json());
 

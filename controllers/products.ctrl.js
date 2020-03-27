@@ -18,6 +18,11 @@ module.exports={
                         .exec()
                         .then((products)=>{
                             if(products){
+                                for (var i = 0; i < products.length; i++) {
+                                    
+                                    if (products[i].image)
+                                        products[i].image = req.protocol + "://" + req.get('host') + "/" + products[i].image;
+                                }
                                 let response={
                                     metadata:{
                                         'total Count':count,
@@ -47,6 +52,7 @@ module.exports={
                 .exec()
                 .then((product)=>{
                     if(product){
+                        product.image=req.protocol + "://" + req.get('host') + "/" + product.image;
                         Review.find({productId:id}) 
                               .exec() 
                               .then((reviews)=>{
@@ -81,7 +87,8 @@ module.exports={
                 });
     },
 
-    save:function(req,res){       
+    save:function(req,res){
+        req.body.image=req.image;  //getting image name from request, which was set in uploader.js     
         let product= new Product(req.body);
         product.save(product)
                 .then((product)=>{
