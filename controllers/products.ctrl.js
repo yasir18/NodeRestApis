@@ -49,11 +49,25 @@ module.exports={
                     if(product){
                         Review.find({productId:id}) 
                               .exec() 
-                              .then((review)=>{
+                              .then((reviews)=>{
                                 var jsonProduct = product.toJSON();
-                                jsonProduct.review=review;
-                                res.status(200);
-                                res.json(jsonProduct);
+                                jsonProduct.reviews=reviews;
+                                Review.aggregate(
+                                    [
+                                        {$match : {productId:id}},
+                                        {$group : {_id:'$productId', averageRatings:{$avg:'$rating'} }}
+                                    ]
+                                ).then((result)=>{
+                                    if(result && result.length>0){
+                                        jsonProduct.averageRatings=result[0].averageRatings.toPrecision(2);
+                                    }
+                                    res.status(200);
+                                    res.json(jsonProduct);
+                                }).catch(err=>{
+                                    res.status(500);
+                                    logger.error(err);
+                                    res.json({error:"Internal Server error"});
+                                })
                               })
                     }
                     else{
@@ -63,7 +77,7 @@ module.exports={
                 }).catch((error)=>{
                     res.status(500);
                     logger.error(error);
-                    res.send("Internal server error");
+                    res.json({error:"Internal Server error"});
                 });
     },
 
