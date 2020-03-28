@@ -18,8 +18,7 @@ module.exports={
                         .exec()
                         .then((products)=>{
                             if(products){
-                                for (var i = 0; i < products.length; i++) {
-                                    
+                                for (var i = 0; i < products.length; i++) {                                    
                                     if (products[i].image)
                                         products[i].image = req.protocol + "://" + req.get('host') + "/" + products[i].image;
                                 }
@@ -52,7 +51,8 @@ module.exports={
                 .exec()
                 .then((product)=>{
                     if(product){
-                        product.image=req.protocol + "://" + req.get('host') + "/" + product.image;
+                        if(product.image)
+                            product.image=req.protocol + "://" + req.get('host') + "/" + product.image;
                         Review.find({productId:id}) 
                               .exec() 
                               .then((reviews)=>{
